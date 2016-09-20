@@ -76,23 +76,18 @@ def process_page(page_request):
 
 def fetch_elo_page(player, server=SERVERS.any):
     url = r"http://www.brawlhalla.com/rankings/1v1/"
-    if not server == SERVERS.any:
+    if server != SERVERS.any:
         url += server.name + "/"
     url += "?p=" + player
     return requests.get(url)
-    
 
 
 def screencap_players():
-    img = ImageGrab.grab(get_window_box())
-    pytesseract.image_to_string(img)
-
-
-def get_window_box():
-    # TODO: OS logic
-    handle = win32gui.FindWindow(None, "Brawlhalla")
-    return win32gui.GetWindowRect(handle)
-    
+     handle = win32gui.FindWindow(None, "Brawlhalla")
+     bbox = win32gui.GetWindowRect(handle)
+     win32gui.BringWindowtoTop(handle)
+     img = ImageGrab.grab(get_window_box())
+     return pytesseract.image_to_string(img)
 
 
 def test():
